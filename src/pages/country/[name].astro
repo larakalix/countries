@@ -1,0 +1,43 @@
+---
+import Navbar from "../../components/Navbar.astro";
+import { CountryNotFound } from "../../components/country/CountryNotFound";
+import { CountrySummary } from "../../components/country/CountrySummary";
+import Layout from "../../layouts/Layout.astro";
+import { getCountry } from "../../logic/getCountries";
+
+const { name } = Astro.params;
+
+const country = await getCountry(name, true);
+---
+
+<Layout title={`Welcome to ${name}.`}>
+    <main class="h-screen snap-y snap-mandatory overflow-y-auto scroll-smooth">
+        <div class="snap-start">
+            <Navbar hideSearch />
+
+            {!country && <CountryNotFound name={name!} />}
+
+            {
+                country && (
+                    <section class="flex items-center justify-center flex-col w-full m-auto md:max-w-5xl lg:max-w-7xl min-h-[80vh] px-2 md:px-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2">
+                            <figure class="overflow-hidden rounded-md">
+                                <img
+                                    src={country.flags.svg}
+                                    alt={country.flags.alt}
+                                />
+                            </figure>
+                            <div class="px-4 py-4 md:px-10 md:py-8 lg:px-20 lg:py-14">
+                                <h1 class="mb-10 font-bold text-3xl">
+                                    {country.name.official}
+                                </h1>
+
+                                <CountrySummary country={country} />
+                            </div>
+                        </div>
+                    </section>
+                )
+            }
+        </div>
+    </main>
+</Layout>

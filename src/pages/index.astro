@@ -1,0 +1,21 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Card from "../components/Card.astro";
+
+import { getCountries } from "../logic/getCountries";
+import { Board } from "../components/country/Board";
+import { setFlagStore } from "../store/flagStore";
+
+const countries = await getCountries();
+---
+
+<Layout title="Welcome to Astro.">
+    <main class="h-screen snap- y snap-mandatory overflow-y-auto scroll-smooth">
+        <div class="snap-start">
+            <Navbar />
+
+            <Board client:load countries={countries} />
+        </div>
+    </main>
+</Layout>

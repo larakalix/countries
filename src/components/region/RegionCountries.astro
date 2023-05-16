@@ -1,0 +1,14 @@
+---
+import { CountriesByRegion } from "../country/CountriesByRegion";
+import { getCountriesByRegion } from "../../logic/getCountries";
+
+export interface Props {
+    region: string;
+}
+
+const { region } = Astro.props;
+
+const countries = await getCountriesByRegion(region);
+---
+
+<CountriesByRegion region={region} countries={countries} />
